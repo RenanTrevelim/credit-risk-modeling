@@ -63,7 +63,8 @@ Notebook: [02_analise_exploratoria.ipynb](notebooks/02_analise_exploratoria.ipyn
 
 A inadimplência corresponde a **6,68% da base preparada**. Um classificador que sempre previsse a classe 0 teria aproximadamente 93,32% de acurácia, mas não identificaria nenhum inadimplente. Por isso, o desempenho precisa ser observado por classe.
 
-![Distribuição dos 139.973 registros da classe 0 e 10.026 da classe 1](assets/images/01_distribuicao_classes.png)
+<img width="790" height="390" alt="image" src="https://github.com/user-attachments/assets/38240958-5117-4ea5-8f70-b7483596b8b7" />
+
 
 *Classes: 0 = não inadimplente; 1 = inadimplente. O desbalanceamento orienta a estratificação e o uso de pesos no treinamento.*
 
@@ -71,7 +72,8 @@ A inadimplência corresponde a **6,68% da base preparada**. Um classificador que
 
 A mediana de utilização é de aproximadamente **13%** entre não inadimplentes e **84%** entre inadimplentes. Nas faixas analisadas, a taxa do evento cresce de cerca de **2%** para **37,2%** quando a utilização supera 100%.
 
-![Taxa de inadimplência por faixa de utilização do crédito](assets/images/02_utilizacao_credito.png)
+<img width="842" height="471" alt="image" src="https://github.com/user-attachments/assets/1dc081fa-8329-4004-a342-61f2129e7560" />
+
 
 *A linha vermelha representa a taxa geral de 6,68%. O agrupamento original não inclui registros com utilização exatamente igual a zero.*
 
@@ -81,7 +83,8 @@ O padrão sugere que o comprometimento do limite disponível oferece informaçã
 
 A quantidade e a gravidade dos atrasos também se associam à inadimplência. Entre clientes com três ou mais ocorrências, a taxa chega a **58,64%** nos atrasos de 60–89 dias e **61,68%** nos de 90 dias ou mais.
 
-![Inadimplência por quantidade e tipo de atraso](assets/images/03_historico_atrasos.png)
+<img width="990" height="490" alt="image" src="https://github.com/user-attachments/assets/6f202c36-56a2-440c-bc78-4155a40390a6" />
+
 
 *O gráfico exclui, apenas nesta análise, registros com contagens de atraso iguais ou superiores a 90. Esses valores permanecem na base usada para modelagem.*
 
@@ -89,7 +92,8 @@ A quantidade e a gravidade dos atrasos também se associam à inadimplência. En
 
 A correlação de Spearman reforça o papel dos atrasos e da utilização do crédito. A idade apresenta associação negativa com o alvo; os demais atributos têm relações individuais mais fracas, sem que isso descarte sua utilidade em interações ou relações não lineares.
 
-![Correlação de Spearman entre os atributos e a inadimplência](assets/images/04_correlacoes.png)
+<img width="1007" height="469" alt="image" src="https://github.com/user-attachments/assets/38356b62-5d43-41cb-adfb-03c492b53883" />
+
 
 Para sintetizar o histórico de pagamento, são criadas duas variáveis:
 
@@ -180,7 +184,8 @@ O limiar transforma o escore contínuo em uma decisão. Reduzi-lo amplia a detec
 | 0,50 | 78,87% | 21,54% | 0,6081 |
 | 0,60 | 69,95% | 27,13% | 0,6542 |
 
-![Evolução do recall por classe e do F1 macro em diferentes limiares](assets/images/05_threshold.png)
+<img width="855" height="547" alt="image" src="https://github.com/user-attachments/assets/8245e6e6-c246-4d0f-b368-1dee844065dd" />
+
 
 *Resultados de validação. A linha vertical do gráfico original marca 0,50 como referência; o limiar aplicado no teste e na aplicação é **0,40**.*
 
@@ -190,7 +195,7 @@ A escolha de 0,40 privilegia a detecção em relação a 0,50. Ela não maximiza
 
 Na validação cruzada com cinco dobras, o XGBoost apresenta **ROC AUC de 0,8637 ± 0,0050** e **recall da classe 1 de 77,89% ± 1,01 ponto percentual**. Esses valores usam a decisão padrão do estimador, sem aplicar o limiar 0,40.
 
-![Curva de aprendizado do XGBoost com recall no treino e na validação](assets/images/07_curva_aprendizado.png)
+<img width="1189" height="590" alt="image" src="https://github.com/user-attachments/assets/031f8db5-f3dd-4215-be60-1aa505b2fa73" />
 
 Na maior amostra da curva, o recall é de **80,02% no treino** e **77,96% na validação**, com diferença de **2,06 pontos percentuais**. A aproximação das curvas sugere menor distância entre ajuste e validação à medida que a amostra aumenta, mas não comprova ausência de sobreajuste. A área sombreada representa a distância entre as médias, não um intervalo de confiança.
 
@@ -212,7 +217,8 @@ Com limiar **0,40**, o modelo apresenta os seguintes resultados nas 30.000 obser
 | ROC AUC | **0,8691** |
 | Average Precision | **0,4006** |
 
-![Matriz de confusão e curva ROC do XGBoost no teste](assets/images/06_avaliacao_teste.png)
+<img width="1107" height="495" alt="image" src="https://github.com/user-attachments/assets/1ab044c2-ccfc-47b0-9da4-b5b765a2e63a" />
+
 
 | Resultado da decisão | Clientes |
 | :--- | ---: |
@@ -233,7 +239,7 @@ As contagens foram reproduzidas com o `pipeline_modelo.pkl` disponível no proje
 
 O histórico de pagamento domina a importância interna do XGBoost. `total_atrasos` concentra aproximadamente **62,8%**, seguido de `utilizacao_credito` e `atraso_grave`.
 
-![Importância dos atributos no XGBoost selecionado](assets/images/08_importancia_variaveis.png)
+<img width="990" height="490" alt="image" src="https://github.com/user-attachments/assets/4a281910-a723-436f-9bee-4a1ac01f56b4" />
 
 Esses percentuais descrevem o critério de importância do estimador. Eles não medem efeitos causais nem representam a porcentagem do risco explicada por cada atributo; variáveis relacionadas podem compartilhar informação.
 
@@ -241,7 +247,7 @@ Esses percentuais descrevem o critério de importância do estimador. Eles não 
 
 O SHAP complementa essa leitura ao mostrar a direção e a magnitude das contribuições para as previsões. No gráfico, valores elevados de `total_atrasos` e `utilizacao_credito` aparecem predominantemente associados a contribuições positivas para a saída do modelo.
 
-![Distribuição das contribuições SHAP por variável](assets/images/09_shap_global.png)
+<img width="870" height="513" alt="image" src="https://github.com/user-attachments/assets/f3911fec-6e8d-494e-aa3b-9dc9be62a00d" />
 
 *Cada ponto representa uma observação. A posição horizontal indica a contribuição SHAP, e a cor representa valores mais baixos ou mais altos do atributo. Os atributos usados pelo modelo estão padronizados.*
 
@@ -266,7 +272,7 @@ Benefício líquido = inadimplentes detectados × perda média × efetividade
                     − clientes sinalizados × custo da ação
 ```
 
-![Benefício líquido simulado com seleção aleatória e priorização pelo modelo](assets/images/10_impacto_financeiro.png)
+<img width="790" height="390" alt="image" src="https://github.com/user-attachments/assets/e061850e-34fa-4105-a84c-5653fea64a08" />
 
 | Resultado da simulação | Valor |
 | :--- | ---: |
